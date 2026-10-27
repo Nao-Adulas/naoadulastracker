@@ -1,0 +1,46 @@
+html,
+body {
+  margin: 0;
+  background-color: #0b0914 !important;
+  color: #e2e8f0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+  background-image: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 15px 15px;
+  z-index: 999;
+  opacity: 0.6;
+}
+
+.halloween-pumpkin {
+  display: inline-block;
+  margin-left: 6px;
+  filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.8));
+  animation: pulse-pumpkin 2s infinite ease-in-out;
+}
+
+@keyframes pulse-pumpkin {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px rgba(255, 107, 0, 0.6)); }
+  50% { transform: scale(1.1); filter: drop-shadow(0 0 14px rgba(255, 120, 0, 1)); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 4px solid #2c2d33;
+  border-top: 4px solid #5383e8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
