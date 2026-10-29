@@ -1,8 +1,5 @@
 {
   "crons": [
-    {
-      "path": "/api/cron/update-ranking",
-      "schedule": "*/5 * * * *"
-    }
+    { "path": "/api/cron/update-ranking", "schedule": "0 3 * * *" }
   ]
 }
