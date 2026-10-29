@@ -35,8 +35,11 @@ export default function Home() {
           player={selectedPlayer}
           matches={detail.matches}
           isLoading={detail.isLoadingMatches}
+          isRefreshing={detail.isRefreshing}
+          refreshError={detail.refreshError}
           expandedMatchId={detail.expandedMatchId}
           onBack={detail.goHome}
+          onRefresh={detail.refreshMatches}
           onToggleExpand={detail.toggleExpand}
         />
       )}

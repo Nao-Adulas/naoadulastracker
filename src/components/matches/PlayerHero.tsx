@@ -1,12 +1,16 @@
 import { ProfileIcon } from '@/components/atoms/ProfileIcon';
+import { Button } from '@/components/atoms/Button';
 import { TierIcon } from '@/components/atoms/TierIcon';
 import type { ProcessedPlayer } from '@/types/player';
 
 interface PlayerHeroProps {
   player: ProcessedPlayer;
+  isRefreshing: boolean;
+  refreshError: string | null;
+  onRefresh: () => void;
 }
 
-export function PlayerHero({ player }: PlayerHeroProps) {
+export function PlayerHero({ player, isRefreshing, refreshError, onRefresh }: PlayerHeroProps) {
   return (
     <div
       style={{
@@ -28,6 +32,7 @@ export function PlayerHero({ player }: PlayerHeroProps) {
           style={{ position: 'absolute', bottom: -8, right: -12 }}
         />
       </div>
+
       <div>
         <h1 style={{ margin: '0 0 4px 0', fontSize: '1.5rem', color: '#fff' }}>{player.riotId}</h1>
         <p style={{ margin: 0, color: '#808088', fontSize: '0.95rem', textTransform: 'capitalize' }}>
@@ -35,6 +40,15 @@ export function PlayerHero({ player }: PlayerHeroProps) {
             ? `${player.tier} ${player.rank} — ${player.leaguePoints} LP`
             : 'Unranked'}
         </p>
+      </div>
+
+      <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
+        <Button variant="ghost" onClick={onRefresh} disabled={isRefreshing}>
+          {isRefreshing ? 'Atualizando...' : 'Atualizar histórico'}
+        </Button>
+        {refreshError && (
+          <div style={{ marginTop: 6, color: '#e84057', fontSize: '0.8rem' }}>{refreshError}</div>
+        )}
       </div>
     </div>
   );

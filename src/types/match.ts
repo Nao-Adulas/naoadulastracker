@@ -39,4 +39,5 @@ export interface MatchSummary {
 
 export interface MatchesResponse {
   matches: MatchSummary[];
+  source?: 'cache' | 'riot';
 }

@@ -3,17 +3,15 @@ import { mapMatchDto } from '@/server/mappers/matchMapper';
 import { fetchMatchById, fetchMatchIds } from '@/server/riot/matches';
 import type { MatchSummary } from '@/types/match';
 
-export async function getMatchHistory(params: {
+export async function fetchMatchSummaries(params: {
   apiKey: string;
   puuid: string;
   region: string;
+  matchIds: string[];
 }): Promise<MatchSummary[]> {
-  const matchIds = await fetchMatchIds(params.apiKey, params.puuid, params.region);
-  if (!matchIds.length) return [];
-
   const matches: MatchSummary[] = [];
 
-  for (const matchId of matchIds) {
+  for (const matchId of params.matchIds) {
     try {
       const matchData = await fetchMatchById(params.apiKey, matchId, params.region);
       if (matchData) {
@@ -26,4 +24,15 @@ export async function getMatchHistory(params: {
   }
 
   return matches;
+}
+
+export async function getMatchHistory(params: {
+  apiKey: string;
+  puuid: string;
+  region: string;
+}): Promise<MatchSummary[]> {
+  const matchIds = await fetchMatchIds(params.apiKey, params.puuid, params.region);
+  if (!matchIds.length) return [];
+
+  return fetchMatchSummaries({ ...params, matchIds });
 }

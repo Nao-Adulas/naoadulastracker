@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { fetchPlayerMatches } from '@/services/matchesService';
+import { fetchPlayerMatches, refreshPlayerMatches } from '@/services/matchesService';
 import type { MatchSummary } from '@/types/match';
 import type { ProcessedPlayer } from '@/types/player';
 
@@ -10,6 +10,8 @@ export function usePlayerMatches() {
   const [selectedPlayer, setSelectedPlayer] = useState<ProcessedPlayer | null>(null);
   const [matches, setMatches] = useState<MatchSummary[]>([]);
   const [isLoadingMatches, setIsLoadingMatches] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshError, setRefreshError] = useState<string | null>(null);
   const [expandedMatchId, setExpandedMatchId] = useState<string | null>(null);
 
   const selectPlayer = useCallback(async (player: ProcessedPlayer) => {
@@ -18,6 +20,7 @@ export function usePlayerMatches() {
     setSelectedPlayer(player);
     setCurrentView('playerDetail');
     setIsLoadingMatches(true);
+    setRefreshError(null);
     setExpandedMatchId(null);
 
     try {
@@ -30,6 +33,23 @@ export function usePlayerMatches() {
       setIsLoadingMatches(false);
     }
   }, []);
+
+  const refreshMatches = useCallback(async () => {
+    if (!selectedPlayer?.puuid || isRefreshing) return;
+
+    setIsRefreshing(true);
+    setRefreshError(null);
+
+    try {
+      const data = await refreshPlayerMatches(selectedPlayer.puuid);
+      setMatches(data.matches || []);
+    } catch (err: any) {
+      console.error('Erro ao atualizar partidas:', err);
+      setRefreshError(err.message || 'Não foi possível atualizar o histórico');
+    } finally {
+      setIsRefreshing(false);
+    }
+  }, [selectedPlayer, isRefreshing]);
 
   const goHome = useCallback(() => {
     setCurrentView('home');
@@ -44,8 +64,11 @@ export function usePlayerMatches() {
     selectedPlayer,
     matches,
     isLoadingMatches,
+    isRefreshing,
+    refreshError,
     expandedMatchId,
     selectPlayer,
+    refreshMatches,
     goHome,
     toggleExpand,
   };
