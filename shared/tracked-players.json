@@ -6,5 +6,7 @@
   { "gameName": "kingsora", "tagLine": "BR1", "region": "americas", "platform": "br1" },
   { "gameName": "croves0gankador", "tagLine": "BR1", "region": "americas", "platform": "br1" },
   { "gameName": "Maria Prea", "tagLine": "Br24", "region": "americas", "platform": "br1" },
-  { "gameName": "ZPR gab 01", "tagLine": "mid", "region": "americas", "platform": "br1" }
+  { "gameName": "ZPR gab 01", "tagLine": "mid", "region": "americas", "platform": "br1" },
+  { "gameName": "BrPGPlusEdition", "tagLine": "br1", "region": "americas", "platform": "br1" }
+
 ]
